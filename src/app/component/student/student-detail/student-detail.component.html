@@ -1,0 +1,126 @@
+<div>
+  <h2>学生信息：</h2>
+  <form (ngSubmit)="onSubmit()" #studentForm="ngForm">
+    
+    <div class="form-group">
+      <label for="name">姓名(必填)：</label>
+      <input type="text" class="form-control" id="name" name="name"
+             required maxlength="4" placeholder="请填写您的姓名" 
+             [(ngModel)]="student.name" #name="ngModel"/>
+      <div *ngIf="name.invalid && (name.dirty || name.touched)"
+            class="alert alert-danger">
+        <div *ngIf="name.errors.required">
+          名字是必须的。
+        </div>
+        <div *ngIf="name.errors.maxlength">
+          名字长度不能超过4字节。
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="telePhone">电话(必填)：</label>
+      <input type="text" class="form-control" id="telePhone" name="telePhone"
+             required maxlength="11" minlength="11" pattern="^1[0-9]+$" placeholder="请填写您的电话" 
+             [(ngModel)]="student.telePhone" #telePhone="ngModel">
+      <div *ngIf="telePhone.invalid && (telePhone.dirty || telePhone.touched)"
+            class="alert alert-danger">
+        <div *ngIf="telePhone.errors.required">
+          电话是必须的。
+        </div>
+        <div *ngIf="telePhone.errors.maxlength || telePhone.errors.minlength || telePhone.error.pattern">
+          请输入有效的手机。
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+        <label for="qq">QQ号：</label>
+        <input type="text" class="form-control" id="qq" name="qq"
+               pattern="^[0-9]+$" placeholder="请填写QQ号" 
+               [(ngModel)]="student.qq" #qq="ngModel">
+        <div *ngIf="qq.invalid && (qq.dirty || qq.touched)"
+              class="alert alert-danger">
+          <div *ngIf="qq.errors.maxlength || qq.errors.pattern">
+            请输入有效的QQ号。
+          </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="weixin">微信号：</label>
+        <input type="text" class="form-control" id="weixin" name="weixin"
+               placeholder="请填写微信号" 
+               [(ngModel)]="student.weixin" #weixin="ngModel">
+    </div>
+
+    <div class="form-group">
+      <label for="province">报考省份：</label>
+      <select class="form-control" 
+          id="province" name="province" 
+          [(ngModel)]="selectStudentScope.province" #province="ngModel"
+          (change)="provinceChange($event.target.value)">
+        <option value="">---选择地区---</option>
+        <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="schoolId">学校：</label>
+      <select class="form-control" 
+              id="schoolId" name="schoolId" 
+              (change)="schoolChange($event.target.value)"
+              [(ngModel)]="student.schoolId" #schoolId="ngModel">
+        <option value="">&#45;&#45;选择学校-</option>
+        <option *ngFor="let school of schools" [value]="school.id">{{school.name}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="professionalId">专业：</label>
+      <select class="form-control" 
+              id="professionalId" name="professionalId"
+              [(ngModel)]="student.professionalId" #professionalId="ngModel">
+        <option value="">---选择专业---</option>
+        <option *ngFor="let professional of professionals" [value]="professional.id">{{professional.name}}</option>
+      </select>
+    </div>
+    
+    <div class="form-group">
+      <label for="requirement">其他需求：</label>
+      <textarea type="textarea" rows="4" class="form-control" 
+              id="requirement" name="requirement" placeholder="请填写需求"
+              maxlength="1000" [(ngModel)]="student.requirement" #requirement="ngModel">
+      </textarea>
+      <div *ngIf="requirement.invalid && (requirement.dirty || requirement.touched)"
+          class="alert alert-danger">
+        <div *ngIf="requirement.errors.maxlength">
+            需求的最大字数不能超过1000。
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="grade">属于那一届：</label>
+      <select class="form-control" 
+          id="grade" name="grade" 
+          [(ngModel)]="student.grade" #grade="ngModel">
+        <option value="">---年级---</option>
+        <option *ngFor="let grade of grades" [value]="grade">{{grade}}</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="status">状态：</label>
+      <select class="form-control" 
+          id="status" name="status" 
+          [(ngModel)]="student.status" #status="ngModel">
+        <option *ngFor="let status of statuss" [value]="status">{{status}}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-success" [disabled]="!studentForm.form.valid">提交</button>
+    <button type="button" class="btn btn-default" (click)="back()">返回</button>
+    <button type="button" class="btn btn-default" (click)="refresh()">刷新</button>
+  </form>
+</div>

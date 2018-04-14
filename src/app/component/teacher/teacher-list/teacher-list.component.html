@@ -1,0 +1,67 @@
+<div>
+  <h2>老师查询：</h2>
+  <form (ngSubmit)="onSubmit()" #teacherForm="ngForm">
+    <div class="form-group">
+      <label for="province">省份：
+        <select class="form-control-one-line"
+            id="province" name="province" 
+            (change)="provinceChange($event.target.value)"
+            [(ngModel)]="selectInfoScope.province" #province="ngModel">
+          <option value="">---选择地区---</option>
+          <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+        </select>
+      </label>
+      <label for="schoolId">学校：
+        <select class="form-control-one-line" 
+                id="schoolId" name="schoolId" 
+                (change)="schoolChange($event.target.value)"
+                [(ngModel)]="selectInfoScope.schoolId" #schoolId="ngModel">
+          <option value="">&#45;&#45;选择学校-</option>
+          <option *ngFor="let school of schools" [value]="school.id">{{school.name}}</option>
+        </select>
+      </label>
+      <label for="professionalId">专业：
+        <select class="form-control-one-line" 
+                id="professionalId" name="professionalId"
+                [(ngModel)]="selectInfoScope.professionalId" #professionalId="ngModel">
+          <option value="">---选择专业---</option>
+          <option *ngFor="let professional of professionals" [value]="professional.id">{{professional.name}}</option>
+        </select>
+      </label>
+      
+      <label for="name">姓名：
+        <input type="text" class="form-control-one-line" id="name" name="name"
+              maxlength="4" placeholder="姓名"
+              [(ngModel)]="selectInfoScope.name" #name="ngModel"/>
+      </label>
+      <label for="name">手机号：
+        <input type="text" class="form-control-one-line" id="telePhone" name="telePhone"
+              maxlength="11" minlength="11" placeholder="手机号"
+              [(ngModel)]="selectInfoScope.telePhone" #telePhone="ngModel"/>
+      </label>
+      <label for="grade">时间：
+        <select class="form-control-one-line" 
+            id="grade" name="grade" 
+            [(ngModel)]="selectInfoScope.grade" #grade="ngModel">
+          <option value="">---年级---</option>
+          <option *ngFor="let grade of grades" [value]="grade">{{grade}}</option>
+        </select>
+      </label>
+
+      <button type="submit" class="btn btn-success">搜索</button>
+      <button type="button" class="btn btn-success" routerLink="/teacherDetail/0">新建</button>
+    </div>    
+  </form>
+</div>
+
+<h2>老师列表：</h2>
+<ul>
+  <li *ngFor="let teacher of teachers">
+    <a routerLink="/teacherDetail/{{teacher.id}}">{{teacher.name}}</a>
+    <br>
+  </li>
+  <li *ngIf="!teachers || teachers.length == 0">
+      当前没有匹配的学生！！
+      <br>
+  </li>
+</ul>

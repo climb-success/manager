@@ -1,0 +1,89 @@
+<div>
+    <h2>群信息：</h2>
+    <form (ngSubmit)="onSubmit()" #groupForm="ngForm">
+      
+      <div class="form-group">
+        <label for="name">标题(必填)：</label>
+        <input type="text" class="form-control" id="name" name="name"
+               required maxlength="30" placeholder="请填写标题 不要重名" 
+               [(ngModel)]="group.name" #name="ngModel"/>
+        <div *ngIf="name.invalid && (name.dirty || name.touched)"
+              class="alert alert-danger">
+          <div *ngIf="name.errors.required">
+            标题是必须的。
+          </div>
+          <div *ngIf="name.errors.maxlength">
+            标题长度不能超过30字节。
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="province">省份：</label>
+        <select class="form-control" id="province" name="province" 
+            required
+            [(ngModel)]="selectGroupScope.province" #province="ngModel"
+            (change)="provinceChange($event.target.value)">
+          <option value="">---选择地区---</option>
+          <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="schoolId">学校：</label>
+        <select class="form-control" id="schoolId" name="schoolId" 
+                required
+                [(ngModel)]="group.schoolId" #schoolId="ngModel">
+          <option value="">&#45;&#45;选择学校-</option>
+          <option *ngFor="let school of schools" [value]="school.id">{{school.name}}</option>
+        </select>
+        <div *ngIf="schoolId.invalid && (schoolId.dirty || schoolId.touched)"
+              class="alert alert-danger">
+          <div *ngIf="schoolId.value ==''">
+            学校必选。
+          </div>
+        </div>
+      </div>
+  
+      <div class="form-group">
+        <label for="year">时间：</label>
+        <select class="form-control" 
+            id="year" name="year" 
+            [(ngModel)]="group.year" #year="ngModel">
+          <option value="">---年级---</option>
+          <option *ngFor="let year of grades" [value]="year">{{year}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+          <label for="qq">QQ群：</label>
+          <input type="text" class="form-control" id="qq" name="qq"
+                 maxlength="30" pattern="^[0-9]*$" placeholder="请填写QQ号" 
+                 [(ngModel)]="group.qq" #qq="ngModel">
+          <div *ngIf="qq.invalid && (qq.dirty || qq.touched)"
+                class="alert alert-danger">
+            <div *ngIf="qq.errors.maxlength || qq.errors.pattern">
+              请输入有效的QQ号。
+            </div>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="weixinCode">微信二维码链接(此为图片链接地址)：</label>
+          <input type="text" class="form-control" id="weixinCode" name="weixinCode"
+                minlength="4" pattern="^((ht|f)tps?):\/\/[\w\-]+(\.[\w\-]+)+([\w\-\.,@?^=%&:\/~\+#]*[\w\-\@?^=%&\/~\+#])?$" 
+                placeholder="请填写链接" 
+                [(ngModel)]="group.weixinCode" #weixinCode="ngModel"/>
+          <div *ngIf="weixinCode.invalid && (weixinCode.dirty || weixinCode.touched)"
+                class="alert alert-danger">
+            <div *ngIf="weixinCode.errors.minlength || weixinCode.errors.pattern">
+              请输入有效的URL链接。
+            </div>
+          </div>
+      </div>
+
+      <button type="submit" class="btn btn-success" [disabled]="!groupForm.form.valid">提交</button>
+      <button type="button" class="btn btn-default" (click)="back()">返回</button>
+      <button type="button" class="btn btn-default" (click)="refresh()">刷新</button>
+    </form>
+  </div>

@@ -1,0 +1,53 @@
+<div>
+  <h2>群信息</h2> 
+  <form (ngSubmit)="onSubmit()" #groupForm="ngForm">
+    <div class="form-group">
+      <label for="province">省份：
+        <select class="form-control-one-line"
+            id="province" name="province" 
+            [(ngModel)]="selectGroupScope.province" #province="ngModel"
+            (change)="provinceChange($event.target.value)">
+          <option value="">---选择地区---</option>
+          <option *ngFor="let province of provinces" [value]="province">{{province}}</option>
+        </select>
+      </label>
+      <label for="schoolId">学校：
+        <select class="form-control-one-line" 
+                id="schoolId" name="schoolId" 
+                [(ngModel)]="selectGroupScope.schoolId" #schoolId="ngModel">
+          <option value="">--选择学校--</option>
+          <option *ngFor="let school of schools" [value]="school.id">{{school.name}}</option>
+        </select>
+      </label>
+
+      <label for="year">时间：
+        <select class="form-control-one-line" 
+            id="year" name="year" 
+            [(ngModel)]="selectGroupScope.year" #year="ngModel">
+          <option value="">---年级---</option>
+          <option *ngFor="let year of grades" [value]="year">{{year}}</option>
+        </select>
+      </label>
+      <label for="name">标题：
+        <input type="text" class="form-control-one-line" id="name" name="name"
+              maxlength="10" placeholder="群标题"
+              [(ngModel)]="selectGroupScope.name" #name="ngModel"/>
+      </label>
+      <button type="submit" class="btn btn-success">搜索</button>
+      <button type="button" class="btn btn-success" routerLink="/groupDetail/0">新建</button>
+    </div>    
+  </form>
+</div>
+
+  <h2>群列表：</h2>
+  <ul>
+    <li *ngFor="let group of groups">
+      <a href="/groupDetail/{{group.id}}">{{group.name}}</a>
+      <button type="button" class="btn btn-success" (click)="delete(group.id)">删除</button>
+      <br>
+    </li>
+    <li *ngIf="!groups || groups.length == 0">
+        当前没有群信息！！
+        <br>
+    </li>
+  </ul>
